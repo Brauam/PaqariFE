@@ -1,0 +1,27 @@
+<div class="wrapper">
+   <div class="row">
+      <div class="col col-sm-12">
+         <img mat-card-image src="assets/img/pagari.png">
+         <div class="alert alert-success" *ngIf="message!=''">
+            <p class="text-center notificacion">{{message}}
+            </p>
+         </div>
+         <div class="alert alert-danger" *ngIf="error!=''">
+            <p class="text-center notificacion"> {{error}}
+            </p>
+         </div>
+         <form [formGroup]="formUsuario">
+            <mat-form-field>
+               <input type="text" matInput placeholder="Usuario" formControlName="usuario" autocomplete="off">
+               <i class="material-icons" matSuffix>account_circle</i>
+            </mat-form-field>
+            <mat-form-field >
+               <input type="password" (keyup.enter)="ValidarUsuario()" matInput placeholder="Contraseña" formControlName="contrasena" autocomplete="off">
+               <i class="material-icons" matSuffix>lock</i>
+            </mat-form-field>
+         </form>
+         <button mat-raised-button [disabled]="!formUsuario.valid || block" class="float-right btn btn-danger"
+            (click)="ValidarUsuario()">Ingresar</button>
+      </div>
+   </div>
+</div>

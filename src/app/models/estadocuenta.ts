@@ -1,0 +1,37 @@
+export interface IEstadoCuenta {
+    IdDetConsulta: number;
+    IdConsulta: number;
+    NomSesion: string;
+    IMPORTE: number;
+    SALDO: number;
+    Porcentaje: number;
+    FechaSesion: Date;
+    NombreFechaSesion:string;
+    Modalidad: string;
+    Politica: string;
+    Licenciado: string;
+    Horainicio: Date;
+    HoraFin: Date;
+    Estado: string;
+    idestado: number;
+    EstadoRep: string;
+    idtiposesion: number;
+    Edad: number;
+    vencimiento: Date;
+    DocNro: string;
+    fechapago: Date;
+    obs: string;
+    Nombres: string;
+    NPapa: string;
+    NMama: string;
+    NPredeterminado: string;
+    CelularPapa: string;
+    CelularMama: string;
+    CelularPredeterminado: string;
+    DNIPredeterminado: string;
+    FechaNaci: Date;
+    DocIdentidad: string;
+    Correo: string;
+    Telefono: string;
+    Sexo: string;
+}

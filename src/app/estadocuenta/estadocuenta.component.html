@@ -1,0 +1,215 @@
+<div class="container-fluid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label style="font-size: 14px;">Seleccionar Estado</mat-label>
+            <mat-select [(ngModel)]="selectedIdEstado">
+              <mat-option (click)="ListarConsultas(idcliente,selectedIdEstado)" *ngFor="let item of estados"
+                [value]="item.IdEstado">
+                {{item.Estado}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col" *ngIf="selectedIdEstado !== undefined">
+          <mat-form-field>
+            <mat-label style="font-size: 14px;">Seleccionar terapia</mat-label>
+            <mat-select [(ngModel)]="selectedIdConsulta">
+              <mat-option *ngIf="consultas.length == 0" [value]="0" selected>
+                No tiene historial de consultas
+              </mat-option>
+              <mat-option (click)="ListarDetalleConsulta(selectedIdConsulta)"
+                *ngFor="let item of consultas" [value]="item.IdConsulta">
+                {{item.Descripcion}} - {{item.FechaReg | date: 'dd/MM/yyyy'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <app-loading *ngIf="loading"></app-loading>
+  <div class="card" *ngIf="message">
+    <div class="card-header">
+      <div class="row">
+        <div class="col">
+          <span>No se encontraron sesiones de la terapia seleccionada</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" [hidden]="!display">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header card-header-danger">
+          <h3 class="card-title">DETALLE DE ESTADO DE CUENTA</h3>
+          <!-- <p class="card-category"> </p> -->
+          <div class="row">
+            <div class="col">
+              <mat-label><strong>NOMBRES Y APELLIDOS:</strong>&nbsp;{{estadoCuenta?.Nombres}}</mat-label>
+            </div>
+            <div class="col">
+              <mat-label><strong>DATOS DEL REPRESENTANTE LEGAL:</strong>&nbsp;{{estadoCuenta?.NMama}}</mat-label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-label><strong>FECHA DE NACIMIENTO:</strong>&nbsp;{{estadoCuenta?.FechaNaci | date: 'dd/MM/yyyy'}}
+              </mat-label>
+            </div>
+            <div class="col">
+              <mat-label><strong>DNI DEL APODERADO:</strong>&nbsp;{{estadoCuenta?.DNIPredeterminado}}</mat-label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-label><strong>DNI:</strong>&nbsp;{{estadoCuenta?.DocIdentidad}}</mat-label>
+            </div>
+            <div class="col">
+              <mat-label><strong>CELULAR DEL PADRE:</strong>&nbsp;{{estadoCuenta?.CelularPapa}}</mat-label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-label><strong>CORREO:</strong>&nbsp;{{estadoCuenta?.Correo}}</mat-label>
+            </div>
+            <div class="col">
+              <mat-label><strong>CELULAR DE LA MADRE:</strong>&nbsp;{{estadoCuenta?.CelularMama}}</mat-label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-label><strong>SEXO:</strong>&nbsp;{{estadoCuenta?.Sexo}}</mat-label>
+
+            </div>
+            <div class="col">
+              <mat-label><strong>TELEFONO:</strong>&nbsp;{{estadoCuenta?.Telefono}}</mat-label>
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive table-sm table-hover">
+            <table class="table">
+              <thead>
+                <th class="text-center" style="width: 15%;">
+                  <strong>Fecha</strong>
+                </th>
+                <th class="text-center" style="width: 10%;">
+                  <strong>Hora</strong>
+                </th>
+                <th class="text-center" style="width: 10%;">
+                  <strong>Modalidad</strong>
+                </th>
+                <th class="text-center" style="width: 10%;">
+                  <strong>Estado Sesi&oacute;n</strong>
+                </th>
+                <th class="text-center" style="width: 15%;">
+                  <strong>Sesi&oacute;n</strong>
+                </th>
+                <th class="text-center" style="width: 5%;">
+                  <strong>Precio</strong>
+                </th>
+                <th class="text-center" style="width: 5%;">
+                  <strong>Saldo</strong>
+                </th>
+                <th class="text-center" style="width: 10%;">
+                  <strong>Fecha de Pago</strong>
+                </th>
+                <th class="text-center" style="width: 10%;">
+                  <strong>Nro de recibo</strong>
+                </th>
+                <th class="text-center" style="width: 10%;">
+                  <strong>Fecha de emisi&oacute;n</strong>
+                </th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of estadosCuenta; let i=index">
+                  <!-- <td class="text-center">
+                    {{i+1}}
+                  </td> -->
+                  <!-- <td class="text-center">
+                    {{item.FechaSesion|date:'dd/MM/yyyy'}}
+                  </td> -->
+                  <td class="text-center">
+                    <div *ngIf="item.Modalidad !== 'POR PROGRAMAR'; then thenBlock1 else elseBlock1"></div>
+                    <ng-template #thenBlock1>{{item.NombreFechaSesion}}
+                    </ng-template>
+                    <ng-template #elseBlock1>-</ng-template>
+                  </td>
+                  <td class="text-center">
+                    <div *ngIf="item.Modalidad !== 'POR PROGRAMAR'; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock>{{item.Horainicio|date: 'h:mm'}} - {{item.HoraFin|date: 'h:mm'}}
+                    </ng-template>
+                    <ng-template #elseBlock>-</ng-template>
+                  </td>
+                  <td class="text-center">
+                    {{item.Modalidad}}
+                  </td>
+                  <td class="text-center"
+                    [ngClass]="{'textestado': item.idestado == 7,'textestado2':item.idestado == 6,'textestado3':item.idestado == 5 }">
+                    {{item.Estado}}
+                  </td>
+                  <td class="text-center">
+                    {{item.NomSesion}}
+                  </td>
+                  <!-- <td class="text-primary text-center">
+                      {{ item.IMPORTE | currency:'PEN':'symbol':'1.2-2'}}
+                    </td>
+                    <td class="text-primary text-center">
+                      {{ item.SALDO | currency:'PEN':'symbol':'1.2-2'}}
+                    </td> -->
+                  <td class="text-center">
+                    <strong>{{ item.IMPORTE | number:'1.2-2'}}</strong>
+                  </td>
+                  <td class="text-center" [ngStyle]="{'color': getcolor(item.vencimiento,item.SALDO)}">
+                    {{ item.SALDO | number:'1.2-2'}}
+                  </td>
+                  <td class="text-center" [ngStyle]="{'color': getcolor(item.vencimiento,item.SALDO)}">
+                    {{item.vencimiento|date:'dd/MM/yyyy'}}
+                  </td>
+                  <td class="text-center">
+                    <div *ngIf="item.DocNro != null; then thenBlock2 else elseBlock2"></div>
+                    <ng-template #thenBlock2> {{item.DocNro}}
+                    </ng-template>
+                    <ng-template #elseBlock2>-</ng-template>
+
+                  </td>
+                  <td class="text-center">
+                    <div *ngIf="item.DocNro != null; then thenBlock3 else elseBlock3"></div>
+                    <ng-template #thenBlock3> {{item.fechapago|date:'dd/MM/yyyy'}}
+                    </ng-template>
+                    <ng-template #elseBlock3>-</ng-template>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4">
+                    <div class="col" *ngIf="estadoCuenta?.Porcentaje > 0 && total == saldo && estadoCuenta?.FechaSesion <= fecha">
+                      <strong>PRONTO PAGO: Si realiza el pago total de la terapia tendra un
+                        descuento del {{estadoCuenta?.Porcentaje}} % sobre el pago total, el importe a pagar seria de
+                        S/ {{totalDescuento| number:'1.2-2'}} fecha limite {{estadoCuenta?.NombreFechaSesion}}
+                      </strong>
+                    </div>
+                  </td>
+                  <td colspan="1" class="text-right"><strong>TOTAL</strong></td>
+                  <td class="text-center"><strong>{{total| number:'1.2-2'}}</strong></td>
+                  <td class="text-center"><strong>{{saldo| number:'1.2-2'}}</strong></td>
+                  <td class="text-center">
+                    <mat-label><strong>POLITICA:</strong>&nbsp;{{estadoCuenta?.Politica}}</mat-label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer-bankaccounts></app-footer-bankaccounts>
+</div>
