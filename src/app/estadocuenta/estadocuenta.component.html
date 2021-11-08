@@ -190,10 +190,10 @@
                 </tr>
                 <tr>
                   <td colspan="4">
-                    <div class="col" *ngIf="estadoCuenta?.Porcentaje > 0 && total == saldo && estadoCuenta?.FechaSesion <= fecha">
+                    <div class="col" *ngIf="estadoCuenta?.Porcentaje > 0 && total == saldo && fechaVencimiento >= fecha">
                       <strong>PRONTO PAGO: Si realiza el pago total de la terapia tendra un
                         descuento del {{estadoCuenta?.Porcentaje}} % sobre el pago total, el importe a pagar seria de
-                        S/ {{totalDescuento| number:'1.2-2'}} fecha limite {{estadoCuenta?.NombreFechaSesion}}
+                        S/ {{totalDescuento| number:'1.2-2'}} fecha limite {{estadoCuenta?.NombreFechaVencimiento}}
                       </strong>
                     </div>
                   </td>

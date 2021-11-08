@@ -14,6 +14,7 @@ import { EstadosService } from 'app/services/estados.service';
 export class EstadocuentaComponent implements OnInit {
 
   fecha = new Date;
+  fechaVencimiento = new Date;
   selectedIdConsulta: number = 0;
   selectedIdEstado: number = 0;
   consultas: IConsultas[] = [];
@@ -75,7 +76,8 @@ export class EstadocuentaComponent implements OnInit {
           let fech = new Date();
           this.estadosCuenta = res;
           this.estadoCuenta = res[0];
-
+          let fechaVencimiento = new Date(this.estadoCuenta.vencimiento);
+          this.fechaVencimiento = fechaVencimiento
           res.forEach(element => {
             this.total += element.IMPORTE;
             this.saldo += element.SALDO;
@@ -90,9 +92,15 @@ export class EstadocuentaComponent implements OnInit {
         }
       )
     }
-
-
-
   }
+
+  
+  // get fVen(fecha:Date,ven:Date) {
+  //   if (fecha> ven) {
+  //     return true
+  //   } else {
+  //     return false      
+  //   }
+  // }
 
 }

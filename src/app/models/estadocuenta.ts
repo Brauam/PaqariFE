@@ -7,6 +7,7 @@ export interface IEstadoCuenta {
     Porcentaje: number;
     FechaSesion: Date;
     NombreFechaSesion:string;
+    NombreFechaVencimiento:string;
     Modalidad: string;
     Politica: string;
     Licenciado: string;
