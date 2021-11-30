@@ -17,7 +17,8 @@ import { MatCardModule } from '@angular/material/card';
 import { LoginComponent } from 'app/login/login.component';
 import { InformesComponent } from 'app/informes/informes.component';
 import { LoadingComponent } from 'app/components/loading/loading.component';
-
+import { UserProfileComponent } from 'app/user-profile/user-profile.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { LoadingComponent } from 'app/components/loading/loading.component';
     MatButtonModule,
     MatRippleModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     MatInputModule,
     MatCardModule,
     MatSelectModule,
@@ -41,6 +43,7 @@ import { LoadingComponent } from 'app/components/loading/loading.component';
     EstadocuentaComponent,
     FooterBankaccountsComponent,
     LoadingComponent,
+    UserProfileComponent,
     LoginComponent,
     InformesComponent
   ]
