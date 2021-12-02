@@ -20,4 +20,30 @@ export interface ICliente {
     Salud: string;
     Preferencias: string;
     contrasena: string;
+    ActInformacion: boolean;
+    items: IFamiliares[];
+}
+
+
+export interface IFamiliares {
+    idFamliar:number;
+    DocIdentidad:string;
+    Nombres:string;
+    Direccion:string;
+    Telefono:string;
+    Celular:string;
+    correo:string;
+    Observaciones:string;
+    Referencia:string;
+    Dpto:string;
+    Prov:string;
+    Dist:string;
+    sexo:string;
+    Parentesco:string;
+    idcliente:number;
+    persona:string;
+    Predeterminado:string;
+    Ocupacion:string;
+    FechaNaciFam:Date;
+    PredeterminadoFact:string;
 }

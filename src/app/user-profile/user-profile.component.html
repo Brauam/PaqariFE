@@ -44,7 +44,14 @@
                   <mat-datepicker #picker disabled="false" [touchUi]="true"></mat-datepicker>
                 </mat-form-field>
               </div>
-              <div class="col-md-8">
+              <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Sexo" formControlName="Sexo">
+                    <mat-option *ngFor="let item of sexo" [value]="item.sexo">{{item.sexo}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="Colegio" type="text" formControlName="Colegio">
                 </mat-form-field>
@@ -72,23 +79,26 @@
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                  <mat-select   placeholder="Departamento" formControlName="Dpto">
-                    <mat-option (click)="ListarProvincias(this.clienteForm.controls.Dpto.value)" *ngFor="let item of departamentos" [value]="item.Codigo">{{item.Descripcion}}
+                  <mat-select placeholder="Departamento" formControlName="Dpto">
+                    <mat-option (click)="ListarProvincias(this.clienteForm.controls.Dpto.value)"
+                      *ngFor="let item of departamentos" [value]="item.Codigo">{{item.Descripcion}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                  <mat-select  placeholder="Provincia" formControlName="Prov">
-                    <mat-option (click)="ListarDistrito(this.clienteForm.controls.Dpto.value + this.clienteForm.controls.Prov.value)" *ngFor="let item of provincias" [value]="item.Codigo">{{item.Descripcion}}</mat-option>
+                  <mat-select placeholder="Provincia" formControlName="Prov">
+                    <mat-option
+                      (click)="ListarDistrito(this.clienteForm.controls.Dpto.value + this.clienteForm.controls.Prov.value)"
+                      *ngFor="let item of provincias" [value]="item.Codigo">{{item.Descripcion}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                  <mat-select  placeholder="Distrito" formControlName="Dist">
-                    <mat-option  *ngFor="let item of distritos" [value]="item.Codigo">{{item.Descripcion}}</mat-option>
+                  <mat-select placeholder="Distrito" formControlName="Dist">
+                    <mat-option *ngFor="let item of distritos" [value]="item.Codigo">{{item.Descripcion}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -110,10 +120,177 @@
                     maxlength="200"></textarea>
                 </mat-form-field>
               </div>
+              <div class="col-md-12">
+
+                <button mat-raised-button (click)="ActualizarCliente()" [disabled]="!clienteForm.valid"
+                  class="btn btn-danger float-right">
+                  Actualizar datos</button>
+              </div>
+
             </div>
-            <button mat-raised-button (click)="ActualizarCliente()" [disabled]="!clienteForm.valid" class="btn btn-danger">
-              Actualizar datos</button>
-            <div class="clearfix"></div>
+
+
+            <hr>
+            <mat-tab-group>
+              <mat-tab label="Familiares">
+                <div class="container-fluid">
+                  <div class="card card-header">
+
+
+                    <button mat-mini-fab color="accent" (click)="addFamiliar()">
+                      <mat-icon>add</mat-icon>
+                    </button>
+<br>
+                    <table class="table">
+                      <thead>
+                        <th><strong>Nombres</strong></th>
+                        <th class="text-center"><strong>DNI</strong></th>
+                        <th class="text-center"><strong>Direccion</strong></th>
+                        <th class="text-center"><strong>Acciones</strong></th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of familiaresF;let i = index">
+                          <td>{{item.Nombres}}</td>
+                          <td class="text-center">{{item.DocIdentidad}}</td>
+                          <td class="text-center">{{item.Direccion}}</td>
+                          <td class="text-center">
+                            <button mat-icon-button color="accent" (click)="editFamiliar(i)">
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <br>
+                <div *ngIf="mostrar">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-header card-header-danger">
+                        <h3 class="card-title">DATOS DEL FAMILIAR</h3>
+                        <p class="card-category">Completa los datos</p>
+                      </div>
+                      <div class="card-body">
+                        <form [formGroup]="familiaresForm">
+                          <div class="row">
+
+                            <div class="col-md-8">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Nombres y apellidos" formControlName="Nombres">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Correo" type="email" formControlName="correo">
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Documento identidad" type="text"
+                                  formControlName="DocIdentidad">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                              <mat-form-field class="example-full-width">
+                                <input matInput [matDatepicker]="picker1" placeholder="Fecha de nacimiento"
+                                  formControlName="FechaNaciFam">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1 disabled="false" [touchUi]="true"></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                              <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Sexo" formControlName="sexo">
+                                  <mat-option *ngFor="let item of sexo" [value]="item.sexo">{{item.sexo}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                              <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Parentesco" formControlName="Parentesco">
+                                  <mat-option *ngFor="let item of familiares" [value]="item.familiar">{{item.familiar}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Celular" type="text"
+                                  formControlName="Celular">
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Direccion" type="text" formControlName="Direccion">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Referencia" type="text" formControlName="Referencia">
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-4">
+                              <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Departamento" formControlName="Dpto">
+                                  <mat-option (click)="ListarProvinciasF(this.familiaresForm.controls.Dpto.value)"
+                                    *ngFor="let item of departamentosF" [value]="item.Codigo">{{item.Descripcion}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                              <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Provincia" formControlName="Prov">
+                                  <mat-option
+                                    (click)="ListarDistritoF(this.familiaresForm.controls.Dpto.value + this.familiaresForm.controls.Prov.value)"
+                                    *ngFor="let item of provinciasF" [value]="item.Codigo">{{item.Descripcion}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                              <mat-form-field class="example-full-width">
+                                <mat-select placeholder="Distrito" formControlName="Dist">
+                                  <mat-option *ngFor="let item of distritosF" [value]="item.Codigo">{{item.Descripcion}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <mat-form-field class="example-full-width">
+                                <textarea matInput placeholder="Observaciones (maximo 200 caracteres)"
+                                  formControlName="Observaciones"
+                                  maxlength="200"></textarea>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row">
+
+                            <div class="col-md-12">
+
+                              <button mat-raised-button (click)="AddOrUpdateFamiliar()"  [disabled]="!familiaresForm.valid" 
+                                class="btn btn-danger float-right">
+                                {{ add  ? 'Agregar familiar': 'Actualizar datos de familiar'}}
+                                </button>
+                            </div>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
           </form>
         </div>
       </div>

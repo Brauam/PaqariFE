@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ICliente } from 'app/models/cliente';
+import { ICliente, IFamiliares } from 'app/models/cliente';
 import { IReturn } from 'app/models/return';
 import { environment } from 'environments/environment';
 
@@ -19,6 +19,13 @@ export class ClienteService {
 
   put(item: ICliente) {
     return this.http.put<IReturn>(`${this.url}Cliente`, item);
+  }
+
+  ActualizarFamiliar(item: IFamiliares) {
+    return this.http.post<IReturn>(`${this.url}ActualizarFamiliar`, item);
+  }
+  AgregarFamiliar(item: IFamiliares) {
+    return this.http.post<IReturn>(`${this.url}AgregarFamiliar`, item);
   }
 
 
