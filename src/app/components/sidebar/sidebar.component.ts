@@ -9,12 +9,11 @@ declare interface RouteInfo {
   title: string;
   icon: string;
   class: string;
-  view: number;
 }
 export const ROUTES: RouteInfo[] = [
-  { path: '/user-profile', title: 'Perfil', icon: 'person', class: '', view: 0 },
-  { path: '/estadocuenta', title: 'Estado de cuenta', icon: 'shopping_bag', class: '', view: 1 },
-  { path: '/informes', title: 'Historial', icon: 'assignment', class: '', view: 1 },
+  { path: '/user-profile', title: 'Perfil', icon: 'person', class: '' },
+  { path: '/estadocuenta', title: 'Detalle de terapia', icon: 'date_range', class: '' },
+  { path: '/informes', title: 'Historial', icon: 'assignment', class: '' },
 ];
 
 @Component({
@@ -24,21 +23,9 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
-  idcliente: number;
-  constructor(private clienteService: ClienteService,
-    private storageService: StorageService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.idcliente = +this.storageService.leerToken();
-    this.clienteService.get(this.idcliente).subscribe(res => {
-      ROUTES.forEach(element =>
-        {
-          if (res.ActInformacion) {
-            element.view = 1
-          }
-        }
-      )
-    })
     this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
 isMobileMenu() {

@@ -17,6 +17,7 @@ export class UserProfileComponent implements OnInit {
 
   displayedColumns: string[] = ['Nombres', 'DocIdentidad', 'Direccion', 'correo', 'Accion'];
   hide: boolean = true;
+  isButton: boolean = true;
   idcliente: number;
   clienteForm: FormGroup;
   mostrar: boolean = false;
@@ -57,6 +58,9 @@ export class UserProfileComponent implements OnInit {
         this.listarUbigeo(res.Dpto, res.Dpto + res.Prov)
         this.clienteForm.patchValue(res);
         this.familiaresF = res.items;
+        if (res.ActInformacion) {
+          this.isButton = false
+        }
       }
     )
   }
@@ -76,7 +80,6 @@ export class UserProfileComponent implements OnInit {
     let familiar: IFamiliares = this.familiaresF[index]
     this.listarUbigeoF(familiar.Dpto, familiar.Dpto + familiar.Prov)
     this.familiaresForm.patchValue(familiar);
-    console.log(familiar);
   }
 
 
@@ -173,19 +176,19 @@ export class UserProfileComponent implements OnInit {
   crearFormularioCliente() {
     this.clienteForm = this.formBuilder.group({
       IdCliente: new FormControl(0),
-      DocIdentidad: new FormControl('',Validators.required),
-      Nombres: new FormControl('',Validators.required),
-      Direccion: new FormControl('',Validators.required),
+      DocIdentidad: new FormControl('', Validators.required),
+      Nombres: new FormControl('', Validators.required),
+      Direccion: new FormControl('', Validators.required),
       Telefono: new FormControl(''),
-      Correo: new FormControl(''),
+      Correo: new FormControl('', Validators.required),
       FechaNaci: new FormControl(''),
       Observaciones: new FormControl(''),
       Referencia: new FormControl(''),
-      Sexo: new FormControl('',Validators.required),
-      Dpto: new FormControl('',Validators.required),
-      Prov: new FormControl('',Validators.required),
-      Dist: new FormControl('',Validators.required),
-      idpais: new FormControl(0,Validators.required),
+      Sexo: new FormControl('', Validators.required),
+      Dpto: new FormControl('', Validators.required),
+      Prov: new FormControl('', Validators.required),
+      Dist: new FormControl('', Validators.required),
+      idpais: new FormControl(0, Validators.required),
       Colegio: new FormControl(''),
       Preferencias: new FormControl(''),
       contrasena: new FormControl(''),
@@ -197,24 +200,24 @@ export class UserProfileComponent implements OnInit {
   crearFormularioFamiliar() {
     this.familiaresForm = this.formBuilder.group({
       idFamliar: new FormControl(''),
-      DocIdentidad: new FormControl('',Validators.required),
-      Nombres: new FormControl('',Validators.required),
-      Direccion: new FormControl('',Validators.required),
-      Telefono: new FormControl(''),
-      Celular: new FormControl(''),
-      correo: new FormControl(''),
+      DocIdentidad: new FormControl('', Validators.required),
+      Nombres: new FormControl('', Validators.required),
+      Direccion: new FormControl('', Validators.required),
+      Telefono: new FormControl('', Validators.required),
+      Celular: new FormControl('', Validators.required),
+      correo: new FormControl('', Validators.required),
       Observaciones: new FormControl(''),
       Referencia: new FormControl(''),
-      Dpto: new FormControl('',Validators.required),
-      Prov: new FormControl('',Validators.required),
-      Dist: new FormControl('',Validators.required),
-      sexo: new FormControl('',Validators.required),
-      Parentesco: new FormControl('',Validators.required),
+      Dpto: new FormControl('', Validators.required),
+      Prov: new FormControl('', Validators.required),
+      Dist: new FormControl('', Validators.required),
+      sexo: new FormControl('', Validators.required),
+      Parentesco: new FormControl('', Validators.required),
       idcliente: new FormControl(''),
       persona: new FormControl(''),
       Predeterminado: new FormControl(''),
       Ocupacion: new FormControl(''),
-      FechaNaciFam: new FormControl(''),
+      FechaNaciFam: new FormControl('', Validators.required),
       PredeterminadoFact: new FormControl(''),
     })
   }

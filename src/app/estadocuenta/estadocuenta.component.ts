@@ -45,7 +45,9 @@ export class EstadocuentaComponent implements OnInit {
 
   getcolor(vencimiento: Date, saldo: number) {
     let fa = new Date(vencimiento);
-    if (this.fecha > fa && saldo != 0) {
+    let fec = new Date(this.fecha.toDateString());
+    this.fecha = fec;
+    if (fec > fa && saldo != 0) {
       return 'red'
     } else {
       return 'black'
@@ -73,11 +75,11 @@ export class EstadocuentaComponent implements OnInit {
     if (idconsulta != 0) {
       this.consultasService.DetalleConsultas(idconsulta).subscribe(
         res => {
-          let fech = new Date();
           this.estadosCuenta = res;
           this.estadoCuenta = res[0];
           let fechaVencimiento = new Date(this.estadoCuenta.vencimiento);
-          this.fechaVencimiento = fechaVencimiento
+          let fecve = new Date(fechaVencimiento.toDateString())
+          this.fechaVencimiento = fecve;
           res.forEach(element => {
             this.total += element.IMPORTE;
             this.saldo += element.SALDO;

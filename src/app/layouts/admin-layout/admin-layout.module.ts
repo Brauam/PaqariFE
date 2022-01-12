@@ -22,6 +22,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import {MatIconModule} from '@angular/material/icon';
     MatFormFieldModule,
     MatSnackBarModule,
     MatIconModule,
+    MatRadioModule,
     MatInputModule,
     MatCardModule,
     MatTableModule,
