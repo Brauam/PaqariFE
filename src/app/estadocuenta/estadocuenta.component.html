@@ -190,7 +190,8 @@
                 </tr>
                 <tr>
                   <td colspan="4">
-                    <div class="col" *ngIf="estadoCuenta?.Porcentaje > 0 && total == saldo && fechaVencimiento >= fecha">
+                    <div class="col"
+                      *ngIf="estadoCuenta?.Porcentaje > 0 && total == saldo && fechaVencimiento >= fecha">
                       <strong>PRONTO PAGO: Si realiza el pago total de la terapia tendra un
                         descuento del {{estadoCuenta?.Porcentaje}} % sobre el pago total, el importe a pagar seria de
                         S/ {{totalDescuento| number:'1.2-2'}} fecha limite {{estadoCuenta?.NombreFechaVencimiento}}
@@ -202,6 +203,22 @@
                   <td class="text-center"><strong>{{saldo| number:'1.2-2'}}</strong></td>
                   <td class="text-center">
                     <mat-label><strong>POLITICA:</strong>&nbsp;{{estadoCuenta?.Politica}}</mat-label>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="1">
+                    <div class="col">
+                      <button mat-button class="btn btn-danger" [matMenuTriggerFor]="menu">Enlaces de pago</button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item *ngFor="let item of links"
+                          (click)="Asignar(item)">{{item.tipo}}</button>
+                      </mat-menu>
+                    </div>
+                  </td>
+                  <td colspan="9">
+                    <div class="col">
+                      <strong>{{link.importe}}</strong>
+                    </div>
                   </td>
                 </tr>
               </tbody>

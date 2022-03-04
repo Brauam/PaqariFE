@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IConsultas } from 'app/models/consultas';
+import { IConsultas, ILinkPagos } from 'app/models/consultas';
 import { IEstadoCuenta } from 'app/models/estadocuenta';
 import { environment } from 'environments/environment';
 
@@ -19,6 +19,11 @@ export class ConsultasService {
 
   DetalleConsultas(idconsulta:number){
     return this.http.get<IEstadoCuenta[]>(`${this.url}Reports?idconsulta=${idconsulta}`);
+  }
+
+
+  ListarLinks(idconsulta:number){
+    return this.http.get<ILinkPagos[]>(`${this.url}consultas?idconsulta=${idconsulta}`);
   }
 
 }

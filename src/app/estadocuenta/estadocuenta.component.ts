@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'app/core/storage.service';
-import { IConsultas } from 'app/models/consultas';
+import { IConsultas, ILinkPagos } from 'app/models/consultas';
 import { IEstadoCuenta } from 'app/models/estadocuenta';
 import { IEstados } from 'app/models/estados';
 import { ConsultasService } from 'app/services/consultas.service';
@@ -19,6 +19,8 @@ export class EstadocuentaComponent implements OnInit {
   selectedIdEstado: number = 0;
   consultas: IConsultas[] = [];
   estados: IEstados[] = [];
+  links: ILinkPagos[] = [];
+  link: ILinkPagos;
   estadosCuenta: IEstadoCuenta[] = [];
   estadoCuenta: IEstadoCuenta = undefined;
   display: boolean = false;
@@ -32,6 +34,7 @@ export class EstadocuentaComponent implements OnInit {
     private estadosService: EstadosService) { }
 
   ngOnInit() {
+    this.link = <ILinkPagos>{}
     this.idcliente = +this.storageService.leerToken();
     this.selectedIdEstado = 1;
     this.ListarConsultas(this.idcliente, this.selectedIdEstado);
@@ -41,6 +44,10 @@ export class EstadocuentaComponent implements OnInit {
   get totalDescuento() {
     let totDescuento = this.total - ((this.estadoCuenta?.Porcentaje * this.total) / 100);
     return totDescuento;
+  }
+
+  Asignar(item:ILinkPagos){
+    this.link = item;
   }
 
   getcolor(vencimiento: Date, saldo: number) {
@@ -58,10 +65,19 @@ export class EstadocuentaComponent implements OnInit {
     this.estadosService.getAll().subscribe(res => this.estados = res);
   }
 
+  ListarLinks(idconsulta: number) {
+    this.consultasService.ListarLinks(idconsulta).subscribe(
+      res => {
+        this.links = res;
+      }
+    )
+  }
+
   ListarConsultas(idcliente: number, idestado: number) {
     this.consultasService.Consultas(idcliente, idestado).subscribe(
       res => {
         this.consultas = res;
+        this.ListarLinks(res[0].IdConsulta)
       }
     )
   }

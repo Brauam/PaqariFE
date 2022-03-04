@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from 'app/core/storage.service';
-import { ICliente, IFamiliares } from 'app/models/cliente';
+import { ICliente, IEncuestas, IFamiliares, IPublicia } from 'app/models/cliente';
 import { IPaises, IUbigeo } from 'app/models/ubigeo';
 import { ClienteService } from 'app/services/cliente.service';
 import { UbigeoService } from 'app/services/ubigeo.service';
@@ -19,11 +19,17 @@ export class UserProfileComponent implements OnInit {
   hide: boolean = true;
   isButton: boolean = true;
   idcliente: number;
+  condicion: number;
+  tamano: string;
+  tamano2: string;
   clienteForm: FormGroup;
+  encuestaForm: FormGroup;
   mostrar: boolean = false;
+  mostrares: boolean = false;
   add: boolean = false;
   familiaresForm: FormGroup;
   familiaresF: IFamiliares[];
+  publicidades: IPublicia[];
   departamentos: IUbigeo[];
   provincias: IUbigeo[];
   distritos: IUbigeo[];
@@ -44,12 +50,36 @@ export class UserProfileComponent implements OnInit {
     this.familiares = dataConfig.familiares;
     this.crearFormularioCliente();
     this.crearFormularioFamiliar();
+    this.crearFormularioEncuesta();
     this.ubigeoService.ListarPaises().subscribe(res => this.paises = res)
     this.ubigeoService.ListarDepartamento().subscribe(res => this.departamentos = res)
     this.ubigeoService.ListarDepartamento().subscribe(res => this.departamentosF = res)
     this.idcliente = +this.storageService.leerToken();
     this.listarCliente(this.idcliente);
+    this.ListarPublicidad();
+    this.ConsultarEncuesta()
+  }
 
+  ListarPublicidad() {
+    this.clienteService.ConsultarPublicidad().subscribe(
+      res => {
+        this.publicidades = res
+      })
+
+  }
+
+  ConsultarEncuesta(){
+    this.clienteService.ConsultarEncuesta(this.idcliente).subscribe(
+      res => {
+        if (res > 1) {
+          this.tamano = 'col-md-12'
+          this.mostrares = false
+        } else {
+          this.tamano = 'col-md-9'        
+          this.mostrares = true
+        }
+      }
+    )
   }
 
   listarCliente(idcliente: number) {
@@ -64,6 +94,7 @@ export class UserProfileComponent implements OnInit {
       }
     )
   }
+
 
   listarFamiliares(idcliente: number) {
     this.clienteService.get(idcliente).subscribe(
@@ -220,6 +251,46 @@ export class UserProfileComponent implements OnInit {
       FechaNaciFam: new FormControl('', Validators.required),
       PredeterminadoFact: new FormControl(''),
     })
+  }
+
+  crearFormularioEncuesta() {
+    this.encuestaForm = this.formBuilder.group({
+      IdCliente: new FormControl(0),
+      idPublicidad: new FormControl(0, Validators.required),
+      ComoEntero: new FormControl(''),
+      AccesoConsultorio: new FormControl(''),
+      RecibioTerapiaAnt: new FormControl('', Validators.required),
+      TerapiaAnt: new FormControl(''),
+      RecibioOTerapiaAnt: new FormControl('', Validators.required),
+      OtraTerapiaAnt: new FormControl(''),
+      TiempoTerapia: new FormControl('', Validators.required),
+      MotivoDejTerapiaAnt: new FormControl('', Validators.required),
+      Facilllegar: new FormControl('', Validators.required),
+    })
+  }
+
+  
+  RegistrarEncuesta() {
+    
+    let fllegar = this.encuestaForm.controls.Facilllegar.value
+    this.encuestaForm.controls.Facilllegar.setValue(fllegar == '0' ? false: true)
+    let rotraenc = this.encuestaForm.controls.RecibioTerapiaAnt.value
+    this.encuestaForm.controls.RecibioTerapiaAnt.setValue(rotraenc == '0' ? false: true)
+    let rotraence = this.encuestaForm.controls.RecibioOTerapiaAnt.value
+    this.encuestaForm.controls.RecibioOTerapiaAnt.setValue(rotraence == '0' ? false: true)
+    let encuesta: IEncuestas = this.encuestaForm.getRawValue()
+    encuesta.IdCliente = this.idcliente
+
+    this.clienteService.RegistrarEncuesta(encuesta).subscribe(
+      res => {
+        if (res.Success) {
+          this.ConsultarEncuesta();
+          this._snackBar.open(res.Message, '', { duration: 3 * 1000 });
+        } else {
+          this._snackBar.open(res.Message, '', { duration: 3 * 1000 });
+        }
+      }
+    )
   }
 
 }

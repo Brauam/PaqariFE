@@ -47,3 +47,22 @@ export interface IFamiliares {
     FechaNaciFam:Date;
     PredeterminadoFact:string;
 }
+
+export interface IEncuestas {
+    IdCliente:number;
+    ComoEntero:string;
+    AccesoConsultorio:string;
+    RecibioTerapiaAnt:boolean;
+    TerapiaAnt:string;
+    RecibioOTerapiaAnt:boolean;
+    OtraTerapiaAnt:string;
+    TiempoTerapia:string;
+    MotivoDejTerapiaAnt:string;
+    Facilllegar:boolean;
+    idPublicidad:number;
+}
+
+export interface IPublicia{
+    idPublicidad:number;
+    TipoPublicidad:string;
+}

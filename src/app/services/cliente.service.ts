@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ICliente, IFamiliares } from 'app/models/cliente';
+import { ICliente, IEncuestas, IFamiliares, IPublicia } from 'app/models/cliente';
 import { IReturn } from 'app/models/return';
 import { environment } from 'environments/environment';
 
@@ -24,9 +24,21 @@ export class ClienteService {
   ActualizarFamiliar(item: IFamiliares) {
     return this.http.post<IReturn>(`${this.url}ActualizarFamiliar`, item);
   }
+  
   AgregarFamiliar(item: IFamiliares) {
     return this.http.post<IReturn>(`${this.url}AgregarFamiliar`, item);
   }
 
+  RegistrarEncuesta(item: IEncuestas) {
+    return this.http.post<IReturn>(`${this.url}RegistrarEncuesta`, item);
+  }
+
+  ConsultarPublicidad() {
+    return this.http.get<IPublicia[]>(`${this.url}ConsultarPublicidad`);
+  }
+
+  ConsultarEncuesta(idcliente:number) {
+    return this.http.get<any>(`${this.url}ConsultarEncuesta?idcliente=${idcliente}`);
+  }
 
 }

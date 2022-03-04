@@ -4,3 +4,10 @@ export interface IConsultas {
     Descripcion: string;
     IdCliente: number;
 }
+
+export interface ILinkPagos {
+    id: number;
+    tipo: string;
+    importe: string;
+    link: string;
+}
