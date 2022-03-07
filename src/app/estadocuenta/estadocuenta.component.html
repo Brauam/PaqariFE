@@ -21,8 +21,8 @@
               <mat-option *ngIf="consultas.length == 0" [value]="0" selected>
                 No tiene historial de consultas
               </mat-option>
-              <mat-option (click)="ListarDetalleConsulta(selectedIdConsulta)"
-                *ngFor="let item of consultas" [value]="item.IdConsulta">
+              <mat-option (click)="ListarDetalleConsulta(selectedIdConsulta);ListarLinks(selectedIdConsulta)" *ngFor="let item of consultas"
+                [value]="item.IdConsulta">
                 {{item.Descripcion}} - {{item.FechaReg | date: 'dd/MM/yyyy'}}
               </mat-option>
             </mat-select>
@@ -205,19 +205,21 @@
                     <mat-label><strong>POLITICA:</strong>&nbsp;{{estadoCuenta?.Politica}}</mat-label>
                   </td>
                 </tr>
-                <tr>
+                <tr [hidden]="links.length == 0">
                   <td colspan="1">
                     <div class="col">
                       <button mat-button class="btn btn-danger" [matMenuTriggerFor]="menu">Enlaces de pago</button>
                       <mat-menu #menu="matMenu">
-                        <button mat-menu-item *ngFor="let item of links"
-                          (click)="Asignar(item)">{{item.tipo}}</button>
+                        <button mat-menu-item *ngFor="let item of links" (click)="Asignar(item)">{{item.tipo}}</button>
                       </mat-menu>
                     </div>
                   </td>
                   <td colspan="9">
                     <div class="col">
-                      <strong>{{link.importe}}</strong>
+                      <strong>{{link.importe}}</strong>&nbsp;
+                      <button [hidden]="link.importe == ''" mat-button class="btn btn-sm btn-success" (click)="AbrirEnlace(link.link)"> Pagar
+                        <i class="material-icons">payment</i>
+                      </button>
                     </div>
                   </td>
                 </tr>

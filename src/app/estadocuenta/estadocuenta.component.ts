@@ -50,6 +50,11 @@ export class EstadocuentaComponent implements OnInit {
     this.link = item;
   }
 
+  AbrirEnlace(link:string){
+    let win = window.open(link,'_blank');
+    win.focus()
+  }
+
   getcolor(vencimiento: Date, saldo: number) {
     let fa = new Date(vencimiento);
     let fec = new Date(this.fecha.toDateString());
@@ -69,6 +74,14 @@ export class EstadocuentaComponent implements OnInit {
     this.consultasService.ListarLinks(idconsulta).subscribe(
       res => {
         this.links = res;
+        console.log(this.links)
+        if (this.links.length != 0) {
+          console.log(1)
+        
+        } else {
+          console.log(0)
+          
+        }
       }
     )
   }
@@ -77,7 +90,6 @@ export class EstadocuentaComponent implements OnInit {
     this.consultasService.Consultas(idcliente, idestado).subscribe(
       res => {
         this.consultas = res;
-        this.ListarLinks(res[0].IdConsulta)
       }
     )
   }
