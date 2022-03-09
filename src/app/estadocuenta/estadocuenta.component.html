@@ -21,8 +21,8 @@
               <mat-option *ngIf="consultas.length == 0" [value]="0" selected>
                 No tiene historial de consultas
               </mat-option>
-              <mat-option (click)="ListarDetalleConsulta(selectedIdConsulta);ListarLinks(selectedIdConsulta)" *ngFor="let item of consultas"
-                [value]="item.IdConsulta">
+              <mat-option (click)="ListarDetalleConsulta(selectedIdConsulta);ListarLinks(selectedIdConsulta)"
+                *ngFor="let item of consultas" [value]="item.IdConsulta">
                 {{item.Descripcion}} - {{item.FechaReg | date: 'dd/MM/yyyy'}}
               </mat-option>
             </mat-select>
@@ -214,12 +214,23 @@
                       </mat-menu>
                     </div>
                   </td>
+
                   <td colspan="9">
                     <div class="col">
-                      <strong>{{link.importe}}</strong>&nbsp;
-                      <button [hidden]="link.importe == ''" mat-button class="btn btn-sm btn-success" (click)="AbrirEnlace(link.link)"> Pagar
-                        <i class="material-icons">payment</i>
-                      </button>
+
+                      <span [ngSwitch]="view">
+                        <span *ngSwitchCase="false">
+
+                        </span>
+                        <span *ngSwitchCase="true">
+                          <strong>{{link.importe}}</strong>&nbsp;
+                          <button mat-button class="btn btn-sm btn-success" (click)="AbrirEnlace(link.link)"> Pagar
+                            <i class="material-icons">payment</i>
+                          </button>
+                        </span>
+                      </span>
+
+
                     </div>
                   </td>
                 </tr>

@@ -26,6 +26,7 @@ export class EstadocuentaComponent implements OnInit {
   display: boolean = false;
   loading: boolean = false;
   message: boolean = false;
+  view: boolean = false;
   total: number = 0;
   saldo: number = 0;
   idcliente: number;
@@ -48,6 +49,7 @@ export class EstadocuentaComponent implements OnInit {
 
   Asignar(item:ILinkPagos){
     this.link = item;
+    this.view = true;
   }
 
   AbrirEnlace(link:string){
@@ -75,13 +77,6 @@ export class EstadocuentaComponent implements OnInit {
       res => {
         this.links = res;
         console.log(this.links)
-        if (this.links.length != 0) {
-          console.log(1)
-        
-        } else {
-          console.log(0)
-          
-        }
       }
     )
   }
