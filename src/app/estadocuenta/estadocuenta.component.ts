@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { toHash } from 'ajv/dist/compile/util';
 import { StorageService } from 'app/core/storage.service';
-import { IConsultas, ILinkPagos } from 'app/models/consultas';
+import { IConsultas, ILinkPagos, IZoom } from 'app/models/consultas';
 import { IEstadoCuenta } from 'app/models/estadocuenta';
 import { IEstados } from 'app/models/estados';
 import { ConsultasService } from 'app/services/consultas.service';
@@ -26,13 +28,16 @@ export class EstadocuentaComponent implements OnInit {
   display: boolean = false;
   loading: boolean = false;
   message: boolean = false;
+  zoomCondition: boolean = false;
   view: boolean = false;
   total: number = 0;
   saldo: number = 0;
   idcliente: number;
+  zoom: IZoom;
   constructor(private consultasService: ConsultasService,
     private storageService: StorageService,
-    private estadosService: EstadosService) { }
+    private estadosService: EstadosService,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.link = <ILinkPagos>{}
@@ -40,6 +45,7 @@ export class EstadocuentaComponent implements OnInit {
     this.selectedIdEstado = 1;
     this.ListarConsultas(this.idcliente, this.selectedIdEstado);
     this.ListarEstados();
+    this.zoomCondition = false
   }
 
   get totalDescuento() {
@@ -47,13 +53,30 @@ export class EstadocuentaComponent implements OnInit {
     return totDescuento;
   }
 
-  Asignar(item:ILinkPagos){
+  ObtenerZoom(idconsulta: number) {
+    this.consultasService.ListarZoom(idconsulta).subscribe(
+      res => {
+        this.zoom = res
+        if (res.Link != '') {
+          this.zoomCondition = true
+
+        }
+      }
+    )
+  }
+
+  openDialog(templateRef) {
+    let dialogRef = this.dialog.open(templateRef, {
+      width: '300px'
+    });
+  }
+  Asignar(item: ILinkPagos) {
     this.link = item;
     this.view = true;
   }
 
-  AbrirEnlace(link:string){
-    let win = window.open(link,'_blank');
+  AbrirEnlace(link: string) {
+    let win = window.open(link, '_blank');
     win.focus()
   }
 
@@ -76,7 +99,6 @@ export class EstadocuentaComponent implements OnInit {
     this.consultasService.ListarLinks(idconsulta).subscribe(
       res => {
         this.links = res;
-        console.log(this.links)
       }
     )
   }
@@ -119,7 +141,7 @@ export class EstadocuentaComponent implements OnInit {
     }
   }
 
-  
+
   // get fVen(fecha:Date,ven:Date) {
   //   if (fecha> ven) {
   //     return true

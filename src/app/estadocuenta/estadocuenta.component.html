@@ -21,7 +21,7 @@
               <mat-option *ngIf="consultas.length == 0" [value]="0" selected>
                 No tiene historial de consultas
               </mat-option>
-              <mat-option (click)="ListarDetalleConsulta(selectedIdConsulta);ListarLinks(selectedIdConsulta)"
+              <mat-option (click)="ListarDetalleConsulta(selectedIdConsulta);ListarLinks(selectedIdConsulta);ObtenerZoom(selectedIdConsulta)"
                 *ngFor="let item of consultas" [value]="item.IdConsulta">
                 {{item.Descripcion}} - {{item.FechaReg | date: 'dd/MM/yyyy'}}
               </mat-option>
@@ -48,8 +48,16 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header card-header-danger">
-          <h3 class="card-title">DETALLE DE ESTADO DE CUENTA</h3>
-          <!-- <p class="card-category"> </p> -->
+          <div class="row">
+            <div class="col-auto mr-auto">
+              <h3 class="card-title">DETALLE DE ESTADO DE CUENTA </h3>
+            </div>
+            <div class="col-auto" *ngIf="zoomCondition">
+              <button mat-button class="btn btn-info" (click)="openDialog(template)">
+                Para ingresar a su clase virtual darle click zoom
+              </button>
+            </div>
+          </div>
           <div class="row">
             <div class="col">
               <mat-label><strong>NOMBRES Y APELLIDOS:</strong>&nbsp;{{estadoCuenta?.Nombres}}</mat-label>
@@ -243,3 +251,7 @@
   </div>
   <app-footer-bankaccounts></app-footer-bankaccounts>
 </div>
+
+<ng-template #template>
+  <p><a [href]="zoom.Link" target="_blank">{{zoom.Link}}</a></p>
+ </ng-template>

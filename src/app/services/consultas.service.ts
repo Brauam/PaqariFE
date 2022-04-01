@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IConsultas, ILinkPagos } from 'app/models/consultas';
+import { IConsultas, ILinkPagos, IZoom } from 'app/models/consultas';
 import { IEstadoCuenta } from 'app/models/estadocuenta';
 import { environment } from 'environments/environment';
 
@@ -24,6 +24,10 @@ export class ConsultasService {
 
   ListarLinks(idconsulta:number){
     return this.http.get<ILinkPagos[]>(`${this.url}consultas?idconsulta=${idconsulta}`);
+  }
+
+  ListarZoom(idconsulta:number){
+    return this.http.get<IZoom>(`${this.url}ObtenerZoom?id=${idconsulta}`);
   }
 
 }

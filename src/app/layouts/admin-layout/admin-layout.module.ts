@@ -24,6 +24,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatSelectModule,
     MatTooltipModule,
     MatDatepickerModule,
+    MatDialogModule
   ],
   declarations: [
     EstadocuentaComponent,

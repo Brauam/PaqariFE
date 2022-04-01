@@ -11,3 +11,7 @@ export interface ILinkPagos {
     importe: string;
     link: string;
 }
+
+export interface IZoom {
+    Link: string;
+}
